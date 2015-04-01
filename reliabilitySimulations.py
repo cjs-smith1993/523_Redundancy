@@ -2,7 +2,7 @@ import numpy as np
 from random import randint
 import copy
 
-import time as t
+from multiprocessing import Pool
 
 FAILED = False
 WORKING = True
@@ -72,32 +72,38 @@ class Simulator:
 		self.populationSize = populationSize
 		self.timeArray = timeArray
 
-	def simulate(self, template):
-		systems = [[copy.deepcopy(template) for x in range(self.populationSize)] for y in range(self.numIterations)]
+	def simulate(self, iteration, template):
+		systems = [copy.deepcopy(template) for x in range(self.populationSize)]
 
-		numWorking = np.zeros((self.numIterations, len(self.timeArray)))
+		numWorking = np.zeros(len(self.timeArray))
 		failTimes = []
 		repairTimes = []
 
-		start = t.clock()
-		for iteration in range(self.numIterations):
-			for time in range(len(self.timeArray)):
-				numWorking[iteration][time] = 0
-				for system in systems[iteration]:
-					oldState = system.isWorking()
-					system.evolve(time)
-					isWorking = system.isWorking()
-					numWorking[iteration][time] += isWorking
+		for time in range(len(self.timeArray)):
+			numWorking[time] = 0
+			for system in systems:
+				oldState = system.isWorking()
+				system.evolve(time)
+				isWorking = system.isWorking()
+				numWorking[time] += isWorking
 
-					if oldState == WORKING and not isWorking:
-						failTimes.append(self.timeArray[time])
-					elif oldState == FAILED and isWorking:
-						repairTimes.append(self.timeArray[time])
-		end = t.clock()
-		print(end - start)
+				if oldState is WORKING and not isWorking:
+					failTimes.append(self.timeArray[time])
+				elif oldState is FAILED and isWorking:
+					repairTimes.append(self.timeArray[time])
+		return (numWorking, failTimes, repairTimes)
 
+	def simulateAll(self, template):
+		pool = Pool(processes=self.numIterations)
+		temp = [pool.apply_async(self.simulate, args=(i, template)) for i in range(self.numIterations)]
+		results = [p.get() for p in temp]
+
+		numWorking = [results[i][0] for i in range(self.numIterations)]
 		averageNumWorking = list(map(lambda list: sum(list)/len(list), zip(*numWorking)))
 		averageNumWorking = [x / self.populationSize for x in averageNumWorking]
+
+		failTimes = [results[i][1] for i in range(self.numIterations)]
+		# repairTimes = [results[i][2] for i in range(self.numIterations)]
 
 		mttf = np.mean(failTimes)
 		reliability = averageNumWorking[next(i for i in range(len(self.timeArray)) if self.timeArray[i] > mttf)]
