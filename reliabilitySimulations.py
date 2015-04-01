@@ -20,8 +20,8 @@ class SimulationSystem:
 		return randint(0, self.UPPER_BOUND) < probability*self.UPPER_BOUND
 
 	def evolve(self, t):
-		for idx, component in enumerate(self.components):
-			if component is WORKING:
+		for idx in range(len(self.components)):
+			if self.components[idx] is WORKING:
 				if self.eventHappened(self.probabilityOfFailure):
 					self.components[idx] = FAILED
 			else:
