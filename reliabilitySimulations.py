@@ -11,6 +11,7 @@ class SimulationSystem:
 	UPPER_BOUND = 10000
 
 	def __init__(self, numComponents, probabilityOfFailure, probabilityOfRepair):
+		self.numComponents = numComponents
 		self.components = [WORKING for i in range(numComponents)]
 		self.probabilityOfFailure = probabilityOfFailure
 		self.probabilityOfRepair = probabilityOfRepair
@@ -42,7 +43,7 @@ class SeriesSystem(SimulationSystem):
 			probabilityOfRepair)
 
 	def isWorking(self):
-		return all(component is WORKING for component in self.components)
+		return self.components.count(WORKING) == self.numComponents
 
 class ParallelSystem(SimulationSystem):
 	def __init__(self, numComponents, probabilityOfFailure, probabilityOfRepair):
@@ -52,7 +53,7 @@ class ParallelSystem(SimulationSystem):
 			probabilityOfRepair)
 
 	def isWorking(self):
-		return any(component is WORKING for component in self.components)
+		return self.components.count(WORKING) > 0
 
 class NMRSystem(SimulationSystem):
 	def __init__(self, numComponents, requiredNumComponents, probabilityOfFailure, probabilityOfRepair):
@@ -63,7 +64,7 @@ class NMRSystem(SimulationSystem):
 		self.requiredNumComponents = requiredNumComponents
 
 	def isWorking(self):
-		return sum(component for component in self.components if component is WORKING) >= self.requiredNumComponents
+		return self.components.count(WORKING) >= self.requiredNumComponents
 
 class Simulator:
 	def __init__(self, numIterations, populationSize, timeArray):
