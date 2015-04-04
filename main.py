@@ -32,13 +32,13 @@ def formatPlot():
 	plt.ylabel('Reliability')
 	plt.legend()
 
-def annotatePlot(mttf, reliability, rational=False):
+def annotatePlot(i, mttf, reliability, rational=False):
 	plt.annotate(
 		't = {}'.format(Rational(mttf).limit_denominator(1000) if rational else round(mttf, 3)),
 		xy = (mttf, reliability),
-		xytext = (-20, 20),
-		textcoords = 'offset points', ha = 'right', va = 'bottom',
-		bbox = dict(boxstyle = 'round,pad=0.5', fc = 'yellow', alpha = .3),
+		xytext = (i/numLambda+0.2, 0.8-0.1*i),
+		textcoords = 'axes fraction', ha = 'right', va = 'bottom',
+		bbox = dict(boxstyle = 'round,pad=0.5', fc = colors[i], alpha = .3),
 		arrowprops = dict(arrowstyle = '-', connectionstyle = 'arc3, rad=0')).draggable()
 
 #####################################################################
@@ -55,12 +55,12 @@ models.append(ReliabilityModel(mOfN(3, 2, unitLambda), 'TMR'))
 models.append(ReliabilityModel(mOfN(5, 3, unitLambda), '5MR'))
 models.append(ReliabilityModel(mOfN(19, 10, unitLambda), '19MR'))
 
-for model in models:
+for i, model in enumerate(models):
 	(mttf, reliability) = model.calculateMttf()
 	curve = model.generateCurve(timeArray)
 
 	plt.plot(timeArray, curve, label=model.name)
-	annotatePlot(Float(mttf), reliability, True)
+	annotatePlot(i, Float(mttf), reliability)
 
 formatPlot()
 
@@ -90,7 +90,7 @@ simulationSets.append((NMRSystem(3, 2, rates), 'TMR'))
 simulationSets.append((NMRSystem(5, 3, rates), '5MR'))
 simulationSets.append((NMRSystem(19, 10, rates, auxRates), '19MR'))
 
-for simulation in simulationSets:
+for i, simulation in enumerate(simulationSets):
 	start = time()
 
 	template = simulation[0]
@@ -102,7 +102,7 @@ for simulation in simulationSets:
 	print(end - start)
 
 	plt.plot(timeArray, averages, label=label)
-	annotatePlot(mttf, reliability)
+	annotatePlot(i, mttf, reliability)
 
 formatPlot()
 
