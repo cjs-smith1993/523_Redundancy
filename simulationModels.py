@@ -52,7 +52,24 @@ class ParallelSystem(SimulationSystem):
 class NMRSystem(SimulationSystem):
 	def __init__(self, numComponents, requiredNumComponents, sysRates, auxRates):
 		super(NMRSystem, self).__init__(numComponents, sysRates)
+		self.voter = WORKING
+		self.switch = WORKING
+		self.probabilityOfVoterFailure = auxRates[0]
+		self.probabilityOfSwitchFailure = auxRates[1]
 		self.requiredNumComponents = requiredNumComponents
 
+	def evolve(self, t):
+		if self.voter is not WORKING or self.switch is not WORKING:
+			return
+
+		super(NMRSystem, self).evolve(t)
+		if self.voter is WORKING:
+			if self.eventHappened(self.probabilityOfVoterFailure):
+				self.voter = FAILED
+		if self.switch is WORKING:
+			if self.eventHappened(self.probabilityOfSwitchFailure):
+				self.switch = FAILED
+
 	def isWorking(self):
-		return self.components.count(WORKING) >= self.requiredNumComponents
+		return (self.voter is WORKING and self.switch is WORKING
+			and self.components.count(WORKING) >= self.requiredNumComponents)

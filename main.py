@@ -78,14 +78,14 @@ failureRate = deltaTime/unitLambda
 repairRate = 0*failureRate
 rates = [failureRate, repairRate]
 
-voterFailureRate = failureRate/100
-switchFailureRate = failureRate/100
+voterFailureRate = failureRate/10
+switchFailureRate = failureRate/10
 auxRates = [voterFailureRate, switchFailureRate]
 
 simulationSets = []
 simulationSets.append((SimplexSystem(rates), 'Simplex'))
-simulationSets.append((NMRSystem(3, 2, rates), 'TMR'))
-simulationSets.append((NMRSystem(5, 3, rates), '5MR'))
+simulationSets.append((NMRSystem(3, 2, rates, auxRates), 'TMR'))
+simulationSets.append((NMRSystem(5, 3, rates, auxRates), '5MR'))
 simulationSets.append((NMRSystem(19, 10, rates, auxRates), '19MR'))
 
 for i, simulation in enumerate(simulationSets):
