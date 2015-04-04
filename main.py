@@ -5,6 +5,8 @@ from sympy import Rational, Float
 from reliabilityModels import *
 from reliabilitySimulations import *
 
+from time import time
+
 #####################################################################
 # HELPER FUNCTIONS
 #####################################################################
@@ -78,10 +80,16 @@ simulationSets.append((NMRSystem(5, 3, deltaTime / unitLambda, 0), '5MR'))
 simulationSets.append((NMRSystem(99, 50, deltaTime / unitLambda, 0), '99MR'))
 
 for simulation in simulationSets:
+	start = time()
+
 	template = simulation[0]
 	label = simulation[1]
 
 	(averages, (mttf, reliability)) = simulator.simulateAll(template)
+
+	end = time()
+	print(end - start)
+
 	plt.plot(timeArray, averages, label=label)
 	annotatePlot(mttf, reliability)
 
