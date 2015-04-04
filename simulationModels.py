@@ -24,9 +24,9 @@ class SimulationSystem:
 			if self.components[idx] is WORKING:
 				if self.eventHappened(self.probabilityOfFailure):
 					self.components[idx] = FAILED
-			else:
-				if self.eventHappened(self.probabilityOfRepair):
-					self.components[idx] = WORKING
+			# else:
+			# 	if self.eventHappened(self.probabilityOfRepair):
+			# 		self.components[idx] = WORKING
 
 class SimplexSystem(SimulationSystem):
 	def __init__(self, sysRates):
