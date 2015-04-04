@@ -50,7 +50,6 @@ plt.title('Reliability (Mathematical models)')
 
 models = []
 models.append(ReliabilityModel(simplex(unitLambda), 'Simplex'))
-models.append(ReliabilityModel(parallel(2, unitLambda), 'Parallel 2'))
 models.append(ReliabilityModel(mOfN(3, 2, unitLambda), 'TMR'))
 models.append(ReliabilityModel(mOfN(5, 3, unitLambda), '5MR'))
 models.append(ReliabilityModel(mOfN(19, 10, unitLambda), '19MR'))
@@ -85,7 +84,6 @@ auxRates = [voterFailureRate, switchFailureRate]
 
 simulationSets = []
 simulationSets.append((SimplexSystem(rates), 'Simplex'))
-simulationSets.append((ParallelSystem(2, rates), 'Parallel 2'))
 simulationSets.append((NMRSystem(3, 2, rates), 'TMR'))
 simulationSets.append((NMRSystem(5, 3, rates), '5MR'))
 simulationSets.append((NMRSystem(19, 10, rates, auxRates), '19MR'))
