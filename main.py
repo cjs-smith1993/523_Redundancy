@@ -81,7 +81,7 @@ for simulation in simulationSets:
 	template = simulation[0]
 	label = simulation[1]
 
-	(averages, (mttf, reliability)) = simulator.simulate(template)
+	(averages, (mttf, reliability)) = simulator.simulateAll(template)
 	plt.plot(timeArray, averages, label=label)
 	annotatePlot(mttf, reliability)
 
