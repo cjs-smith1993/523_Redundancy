@@ -32,13 +32,13 @@ def formatPlot():
 	plt.ylabel('Reliability')
 	plt.legend()
 
-def annotatePlot(i, mttf, reliability, rational=False):
+def annotatePlot(i, mttf, reliability):
 	plt.annotate(
-		't = {}'.format(Rational(mttf).limit_denominator(1000) if rational else round(mttf, 3)),
+		't = {}'.format(round(mttf, 3)),
 		xy = (mttf, reliability),
-		xytext = (i/numLambda+0.2, 0.8-0.1*i),
+		xytext = (0.9, 0.55-0.1*i),
 		textcoords = 'axes fraction', ha = 'right', va = 'bottom',
-		bbox = dict(boxstyle = 'round,pad=0.5', fc = colors[i], alpha = .3),
+		bbox = dict(boxstyle = 'round,pad=0.5', fc = colors[i], alpha = 0.6),
 		arrowprops = dict(arrowstyle = '-', connectionstyle = 'arc3, rad=0')).draggable()
 
 #####################################################################
