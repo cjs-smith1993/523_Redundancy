@@ -26,7 +26,7 @@ timeArray = np.arange(0, finalTime, deltaTime)
 #####################################################################
 
 def formatPlot():
-	plt.xlim([0, 2*unitLambda])
+	plt.xlim([0, numLambda*unitLambda])
 	plt.ylim([0, 1])
 	plt.xlabel(r'Time (multiple of $\lambda$)')
 	plt.ylabel('Reliability')
@@ -78,15 +78,18 @@ failureRate = deltaTime/unitLambda
 repairRate = 0*failureRate
 rates = [failureRate, repairRate]
 
-voterFailureRate = failureRate/10
-switchFailureRate = failureRate/10
-auxRates = [voterFailureRate, switchFailureRate]
+voterFailureRate = failureRate/50
+switchFailureRate = failureRate/50
+realAuxRates = [voterFailureRate, switchFailureRate]
+fakeAuxRates = [0, 0]
+
+numComponents = 10
 
 simulationSets = []
-simulationSets.append((SimplexSystem(rates), 'Simplex'))
-simulationSets.append((NMRSystem(3, 2, rates, auxRates), 'TMR'))
-simulationSets.append((NMRSystem(5, 3, rates, auxRates), '5MR'))
-simulationSets.append((NMRSystem(19, 10, rates, auxRates), '19MR'))
+simulationSets.append((SimplexSystem(0, rates), 'Simplex'))
+simulationSets.append((NMRSystem(3, 2, numComponents-3, rates, realAuxRates), 'TMR'))
+simulationSets.append((NMRSystem(5, 3, numComponents-5, rates, realAuxRates), '5MR'))
+simulationSets.append((NMRSystem(19, 10, numComponents-19, rates, realAuxRates), '19MR'))
 
 for i, simulation in enumerate(simulationSets):
 	start = time()
