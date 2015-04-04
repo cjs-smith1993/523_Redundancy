@@ -57,7 +57,7 @@ class NMRSystem(SimulationSystem):
 		self.voter = WORKING
 		self.switch = WORKING
 		self.probabilityOfVoterFailure = auxRates[0]
-		self.probabilityOfSwitchFailure = auxRates[1]
+		self.probabilityOfSwitchFailure = auxRates[1]*numComponents
 		self.requiredNumComponents = requiredNumComponents
 
 	def evolve(self, t):
