@@ -86,9 +86,9 @@ fakeAuxRates = [0, 0]
 numComponents = 10
 
 simulationSets = []
-simulationSets.append((NMRSystem(3, 2, numComponents-3, rates, realAuxRates), 'TMR'))
-simulationSets.append((NMRSystem(5, 3, numComponents-5, rates, realAuxRates), '5MR'))
-simulationSets.append((NMRSystem(7, 4, numComponents-7, rates, realAuxRates), '7MR'))
+simulationSets.append((NMRSystem(3, 2, numComponents-3, rates, realAuxRates), 'Hybrid-TMR'))
+simulationSets.append((NMRSystem(5, 3, numComponents-5, rates, realAuxRates), 'Hybrid-5MR'))
+simulationSets.append((NMRSystem(7, 4, numComponents-7, rates, realAuxRates), 'Hybrid-7MR'))
 simulationSets.append((SimplexSystem(0, rates), 'Simplex'))
 
 for i, simulation in enumerate(simulationSets):
