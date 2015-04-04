@@ -49,10 +49,10 @@ plt.subplot(211)
 plt.title('Reliability (Mathematical models)')
 
 models = []
-models.append(ReliabilityModel(simplex(unitLambda), 'Simplex'))
 models.append(ReliabilityModel(mOfN(3, 2, unitLambda), 'TMR'))
 models.append(ReliabilityModel(mOfN(5, 3, unitLambda), '5MR'))
-models.append(ReliabilityModel(mOfN(19, 10, unitLambda), '19MR'))
+models.append(ReliabilityModel(mOfN(7, 4, unitLambda), '7MR'))
+models.append(ReliabilityModel(simplex(unitLambda), 'Simplex'))
 
 for i, model in enumerate(models):
 	(mttf, reliability) = model.calculateMttf()
@@ -86,10 +86,10 @@ fakeAuxRates = [0, 0]
 numComponents = 10
 
 simulationSets = []
-simulationSets.append((SimplexSystem(0, rates), 'Simplex'))
 simulationSets.append((NMRSystem(3, 2, numComponents-3, rates, realAuxRates), 'TMR'))
 simulationSets.append((NMRSystem(5, 3, numComponents-5, rates, realAuxRates), '5MR'))
-simulationSets.append((NMRSystem(19, 10, numComponents-19, rates, realAuxRates), '19MR'))
+simulationSets.append((NMRSystem(7, 4, numComponents-7, rates, realAuxRates), '7MR'))
+simulationSets.append((SimplexSystem(0, rates), 'Simplex'))
 
 for i, simulation in enumerate(simulationSets):
 	start = time()
