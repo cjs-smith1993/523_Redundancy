@@ -2,10 +2,16 @@ import numpy as np
 from random import randint
 import copy
 
+import os
+import struct
+
 from multiprocessing import Pool
 
 FAILED = False
 WORKING = True
+
+randomGenerator = open("/dev/urandom", "rb")
+MAX_SHORT = 2**16
 
 class SimulationSystem:
 	UPPER_BOUND = 10000
@@ -17,7 +23,7 @@ class SimulationSystem:
 		self.probabilityOfRepair = probabilityOfRepair
 
 	def eventHappened(self, probability):
-		return randint(0, self.UPPER_BOUND) < probability*self.UPPER_BOUND
+		return struct.unpack("H", randomGenerator.read(2))[0] / MAX_SHORT < probability
 
 	def evolve(self, t):
 		for idx in range(len(self.components)):
@@ -103,9 +109,10 @@ class Simulator:
 		averageNumWorking = [x / self.populationSize for x in averageNumWorking]
 
 		failTimes = [results[i][1] for i in range(self.numIterations)]
-		# repairTimes = [results[i][2] for i in range(self.numIterations)]
+		averageFailTimes = list(map(lambda list: sum(list)/len(list), zip(*failTimes)))
+		repairTimes = [results[i][2] for i in range(self.numIterations)]
 
-		mttf = np.mean(failTimes)
+		mttf = np.mean(averageFailTimes)
 		reliability = averageNumWorking[next(i for i in range(len(self.timeArray)) if self.timeArray[i] > mttf)]
 
 		return (averageNumWorking, (mttf, reliability))
