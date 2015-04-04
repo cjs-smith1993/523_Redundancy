@@ -9,6 +9,19 @@ from reliabilitySimulations import *
 from time import time
 
 #####################################################################
+# SETUP
+#####################################################################
+
+plt.figure(num=1, figsize=(10,10))
+colors = ['blue', 'green', 'red', 'cyan', 'purple']
+
+unitLambda = 1
+numLambda = 10
+finalTime = numLambda*unitLambda
+deltaTime = 0.01*unitLambda
+timeArray = np.arange(0, finalTime, deltaTime)
+
+#####################################################################
 # HELPER FUNCTIONS
 #####################################################################
 
@@ -27,17 +40,6 @@ def annotatePlot(mttf, reliability, rational=False):
 		textcoords = 'offset points', ha = 'right', va = 'bottom',
 		bbox = dict(boxstyle = 'round,pad=0.5', fc = 'yellow', alpha = .3),
 		arrowprops = dict(arrowstyle = '-', connectionstyle = 'arc3, rad=0')).draggable()
-
-#####################################################################
-# SETUP
-#####################################################################
-
-plt.figure(num=1, figsize=(10,10))
-
-unitLambda = 1
-finalTime = 10*unitLambda
-deltaTime = 0.01*unitLambda
-timeArray = np.arange(0, finalTime, deltaTime)
 
 #####################################################################
 # MATHEMATICAL MODELS
