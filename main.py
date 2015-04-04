@@ -51,7 +51,7 @@ models.append(ReliabilityModel(simplex(unitLambda), 'Simplex'))
 models.append(ReliabilityModel(parallel(2, unitLambda), 'Parallel 2'))
 models.append(ReliabilityModel(mOfN(3, 2, unitLambda), 'TMR'))
 models.append(ReliabilityModel(mOfN(5, 3, unitLambda), '5MR'))
-models.append(ReliabilityModel(mOfN(99, 50, unitLambda), '99MR'))
+models.append(ReliabilityModel(mOfN(19, 10, unitLambda), '19MR'))
 
 for model in models:
 	(mttf, reliability) = model.calculateMttf()
@@ -73,12 +73,20 @@ NUM_ITERATIONS = 10
 POPULATION_SIZE = 100
 simulator = Simulator(NUM_ITERATIONS, POPULATION_SIZE, timeArray)
 
+failureRate = deltaTime/unitLambda
+repairRate = 0*failureRate
+rates = [failureRate, repairRate]
+
+voterFailureRate = failureRate/100
+switchFailureRate = failureRate/100
+auxRates = [voterFailureRate, switchFailureRate]
+
 simulationSets = []
-simulationSets.append((SimplexSystem(deltaTime / unitLambda, 0), 'Simplex'))
-simulationSets.append((ParallelSystem(2, deltaTime / unitLambda, 0), 'Parallel 2'))
-simulationSets.append((NMRSystem(3, 2, deltaTime / unitLambda, 0), 'TMR'))
-simulationSets.append((NMRSystem(5, 3, deltaTime / unitLambda, 0), '5MR'))
-simulationSets.append((NMRSystem(99, 50, deltaTime / unitLambda, 0), '99MR'))
+simulationSets.append((SimplexSystem(rates), 'Simplex'))
+simulationSets.append((ParallelSystem(2, rates), 'Parallel 2'))
+simulationSets.append((NMRSystem(3, 2, rates), 'TMR'))
+simulationSets.append((NMRSystem(5, 3, rates), '5MR'))
+simulationSets.append((NMRSystem(19, 10, rates, auxRates), '19MR'))
 
 for simulation in simulationSets:
 	start = time()
