@@ -1,7 +1,6 @@
 import numpy as np
 from random import randint
 import copy
-
 from multiprocessing import Pool
 
 FAILED = False
