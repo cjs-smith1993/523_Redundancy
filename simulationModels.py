@@ -20,6 +20,8 @@ class SimulationSystem:
 		return struct.unpack("H", randomGenerator.read(2))[0] / MAX_SHORT < probability
 
 	def evolve(self, t):
+		if not self.isWorking():
+			return
 		for idx in range(len(self.components)):
 			if self.components[idx] is WORKING:
 				if self.eventHappened(self.probabilityOfFailure):
