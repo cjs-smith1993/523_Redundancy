@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from sympy import Rational, Float
 
 from reliabilityModels import *
+from simulationModels import *
 from reliabilitySimulations import *
 
 from time import time
