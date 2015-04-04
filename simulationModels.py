@@ -61,9 +61,6 @@ class NMRSystem(SimulationSystem):
 		self.requiredNumComponents = requiredNumComponents
 
 	def evolve(self, t):
-		if self.voter is not WORKING or self.switch is not WORKING:
-			return
-
 		super(NMRSystem, self).evolve(t)
 		if self.voter is WORKING:
 			if self.eventHappened(self.probabilityOfVoterFailure):
